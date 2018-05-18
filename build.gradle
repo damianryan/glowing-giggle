@@ -1,0 +1,71 @@
+group = 'com.damianryan.scrape'
+version = '1.0-SNAPSHOT'
+description = """Glowing Giggle"""
+
+buildscript {
+    ext {
+        kotlin_version = '1.2.41'
+        dokka_version = '0.9.16'
+    }
+    repositories {
+        jcenter()
+    }
+    dependencies() {
+        classpath group: 'org.jetbrains.kotlin', name: 'kotlin-gradle-plugin', version: "$kotlin_version"
+        classpath group: 'org.jetbrains.dokka', name: 'dokka-gradle-plugin', version: "$dokka_version"
+    }
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'org.jetbrains.dokka'
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        suppressWarnings = true
+        javaParameters = true
+        jvmTarget = targetCompatibility
+    }
+}
+
+test {
+    useJUnitPlatform() // use JUnit 5
+}
+
+dokka {
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/javadoc"
+}
+
+repositories {
+    jcenter()
+}
+
+ext {
+    janino_version = '3.0.8'
+    jsoup_version = '1.11.3'
+    junit_platform_version = '5.1.0'
+    logback_version = '1.2.3'
+    slf4j_version = '1.7.25'
+}
+
+dependencies {
+    compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk8', version: "$kotlin_version"
+    compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: "$kotlin_version"
+    compile group: 'org.slf4j', name: 'slf4j-api', version: "$slf4j_version"
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: "$logback_version"
+    compile group: 'org.codehaus.janino', name: 'janino', version: "$janino_version"
+    compile group: 'org.jsoup', name: 'jsoup', version: "$jsoup_version"
+
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: "$junit_platform_version"
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: "$junit_platform_version"
+    testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test', version: "$kotlin_version"
+    testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test-junit', version: "$kotlin_version"
+}
