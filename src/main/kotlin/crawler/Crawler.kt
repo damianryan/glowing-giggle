@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Multi-threaded link crawler. Uses a fork join pool to decompose the job of crawling a website into smaller tasks
  * that are farmed out to multiple worker threads. Idle workers can steal work from busier workers in order to achieve
- * bigher throughput. This class is responsible for storing the state (visited links, which links are children of
+ * higher throughput. This class is responsible for storing the state (visited links, which links are children of
  * which URLs) in a thread-safe manner.
  */
 class Crawler(private val linkLoader: LinkLoader, private val maxThreads: Int) {
