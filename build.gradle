@@ -1,4 +1,4 @@
-group = 'com.damianryan.scrape'
+group = 'com.damianryan.crawler'
 version = '1.0-SNAPSHOT'
 description = """Glowing Giggle"""
 

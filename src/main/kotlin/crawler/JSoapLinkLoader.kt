@@ -1,4 +1,4 @@
-package com.damianryan.scrape
+package crawler
 
 import com.google.common.collect.Sets
 import org.jsoup.Jsoup

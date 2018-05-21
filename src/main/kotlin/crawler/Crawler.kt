@@ -1,4 +1,4 @@
-package com.damianryan.scrape
+package crawler
 
 import com.google.common.base.Stopwatch
 import com.google.common.collect.Maps
@@ -8,6 +8,12 @@ import java.util.*
 import java.util.concurrent.ForkJoinPool
 import java.util.concurrent.TimeUnit
 
+/**
+ * Multi-threaded link crawler. Uses a fork join pool to decompose the job of crawling a website into smaller tasks
+ * that are farmed out to multiple worker threads. Idle workers can steal work from busier workers in order to achieve
+ * bigher throughput. This class is responsible for storing the state (visited links, which links are children of
+ * which URLs) in a thread-safe manner.
+ */
 class Crawler(private val linkLoader: LinkLoader, private val maxThreads: Int) {
 
     companion object {
@@ -16,7 +22,7 @@ class Crawler(private val linkLoader: LinkLoader, private val maxThreads: Int) {
 
     private val visited = Collections.synchronizedMap(Maps.newLinkedHashMap<String, Int>())
     private val mySiteMap = Collections.synchronizedMap(Maps.newLinkedHashMap<String, MutableCollection<String>>())
-    private val myPool = ForkJoinPool(maxThreads)
+    private val pool = ForkJoinPool(maxThreads)
 
     val size
         get() = visited.size
@@ -43,7 +49,9 @@ class Crawler(private val linkLoader: LinkLoader, private val maxThreads: Int) {
     fun crawl(url: String, maxDepth: Int) {
         LOGGER.info("crawling: {} using {} threads to a maximum link depth of {}", url, maxThreads, maxDepth)
         val stopWatch = Stopwatch.createStarted()
-        myPool.invoke(Indexer(this, linkLoader, url, 0, maxDepth))
+
+        // next line creates a top-level task to crawl a website from the given URL
+        pool.invoke(Indexer(this, linkLoader, url, 0, maxDepth))
         stopWatch.stop()
         LOGGER.info("sitemap crawl took {}s and produced:", stopWatch.elapsed(TimeUnit.SECONDS))
         siteMap.keys.sorted().forEach { LOGGER.info("{} -> {}: {}", it, siteMap[it]?.size, siteMap[it])}

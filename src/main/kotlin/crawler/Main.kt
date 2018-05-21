@@ -1,4 +1,4 @@
-package com.damianryan.scrape
+package crawler
 
 fun main(args: Array<String>) {
     if (args.size < 1) {
