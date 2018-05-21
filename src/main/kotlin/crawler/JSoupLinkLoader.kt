@@ -5,10 +5,10 @@ import org.jsoup.Jsoup
 import org.slf4j.LoggerFactory
 import java.net.URL
 
-class JSoapLinkLoader : LinkLoader {
+class JSoupLinkLoader : LinkLoader {
 
     companion object {
-        private val LOGGER = LoggerFactory.getLogger(JSoapLinkLoader::class.java)
+        private val LOGGER = LoggerFactory.getLogger(JSoupLinkLoader::class.java)
     }
 
     override fun links(url: String): Collection<String>? {

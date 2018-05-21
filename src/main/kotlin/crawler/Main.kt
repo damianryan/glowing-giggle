@@ -8,5 +8,5 @@ fun main(args: Array<String>) {
     val url = args[0]
     val maxThreads = if (args.size > 1) args[1].toInt() else 3
     val maxDepth = if (args.size > 2) args[2].toInt() else -1
-    Crawler(JSoapLinkLoader(), maxThreads).crawl(url, maxDepth)
+    Crawler(JSoupLinkLoader(), maxThreads).crawl(url, maxDepth)
 }
