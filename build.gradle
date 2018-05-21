@@ -49,6 +49,7 @@ repositories {
 }
 
 ext {
+    guava_version = '25.0-jre'
     janino_version = '3.0.8'
     jsoup_version = '1.11.3'
     junit_platform_version = '5.1.0'
@@ -63,6 +64,7 @@ dependencies {
     compile group: 'ch.qos.logback', name: 'logback-classic', version: "$logback_version"
     compile group: 'org.codehaus.janino', name: 'janino', version: "$janino_version"
     compile group: 'org.jsoup', name: 'jsoup', version: "$jsoup_version"
+    compile group: 'com.google.guava', name: 'guava', version: "$guava_version"
 
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: "$junit_platform_version"
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: "$junit_platform_version"
