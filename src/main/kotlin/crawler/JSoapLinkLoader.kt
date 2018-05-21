@@ -18,14 +18,14 @@ class JSoapLinkLoader : LinkLoader {
         if (type.startsWith("text") || type.contains("html")) {
             val document = response.parse()
             val links = document.select("a[href]")
-            val filter = links.map { it.attr("abs:href") } // make hrefs absolute
-                    .filter { it.startsWith("http") } // exclude mailto, other non-http(s) links
-                    .filter { domain == URL(it).host } // exclude external links (even subdomains)
-                    .map { it.substringBefore("#") } // ignore anchor portions of links
-                    .filter { !image(it) } // ignore PNG, JPEG and GIF images
-                    .map { if (it.endsWith("/")) it else it + "/"} // ensure links end in "/"
-            val unique = Sets.newHashSet<String>(filter)
-            LOGGER.debug("found {} unique links in {}: {}", unique.size, url, filter)
+            val filtered = links.map { it.attr("abs:href") } // make hrefs absolute
+                                .filter { it.startsWith("http") } // exclude mailto, other non-http(s) links
+                                .filter { domain == URL(it).host } // exclude external links (even subdomains)
+                                .map { it.substringBefore("#") } // ignore anchor portions of links
+                                .filter { !image(it) } // ignore PNG, JPEG and GIF images
+                                .map { if (it.endsWith("/")) it else it + "/"} // ensure links end in "/"
+            val unique = Sets.newHashSet<String>(filtered)
+            LOGGER.debug("found {} unique links in {}: {}", unique.size, url, unique)
             return unique
         }
         LOGGER.debug("non-text URL: {}", url)
