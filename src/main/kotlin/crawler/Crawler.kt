@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Multi-threaded link crawler. Uses a fork join pool to decompose the job of crawling a website into smaller tasks
  * that are farmed out to multiple worker threads. Idle workers can steal work from busier workers in order to achieve
- * higher throughput. This class is responsible for storing the state (visited links, which links are children of
+ * higher throughput. This class is responsible for storing the state (visited links, which links are child of
  * which URLs) in a thread-safe manner.
  */
 class Crawler(private val linkLoader: LinkLoader, private val maxThreads: Int) {
@@ -43,17 +43,17 @@ class Crawler(private val linkLoader: LinkLoader, private val maxThreads: Int) {
 
     fun addChild(parent: String, child: String) {
         mySiteMap.get(parent)?.add(child)
-        LOGGER.debug("added {} to {}, which now has {} children: {}", child, parent, mySiteMap.get(parent)?.size, mySiteMap.get(parent))
+        LOGGER.debug("added {} to {}, which now has {} child: {}", child, parent, mySiteMap.get(parent)?.size, mySiteMap.get(parent))
     }
 
     fun crawl(url: String, maxDepth: Int) {
-        LOGGER.info("crawling: {} using {} threads to a maximum link depth of {}", url, maxThreads, maxDepth)
+        println("crawling: ${url} using ${maxThreads} threads to a maximum link depth of ${maxDepth}")
         val stopWatch = Stopwatch.createStarted()
 
         // next line creates a top-level task to crawl a website from the given URL
         pool.invoke(Indexer(this, linkLoader, url, 0, maxDepth))
         stopWatch.stop()
-        LOGGER.info("sitemap crawl took {}s and produced:", stopWatch.elapsed(TimeUnit.SECONDS))
-        siteMap.keys.sorted().forEach { LOGGER.info("{} -> {}: {}", it, siteMap[it]?.size, siteMap[it])}
+        println("sitemap crawl took ${stopWatch.elapsed(TimeUnit.SECONDS)}s")
+        siteMap.keys.sorted().forEach { LOGGER.debug("{} -> {}: {}", it, siteMap[it]?.size, siteMap[it])}
     }
 }

@@ -4,23 +4,23 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 /*
-    http://domain.com/ -> 2: [http://domain.com/childless-child, http://domain.com/child-with-child]
-    http://domain.com/child-with-child -> 1: [http://domain.com/grandchild-with-child]
-    http://domain.com/childless-child -> 0: []
-    http://domain.com/childless-great-grandchild -> 0: []
-    http://domain.com/grandchild-with-child -> 1: [http://domain.com/childless-great-grandchild]
+    http://domain.com/ -> 2: [http://domain.com/childless-child/, http://domain.com/child-with-child/]
+    http://domain.com/child-with-child/ -> 1: [http://domain.com/grandchild-with-child/]
+    http://domain.com/childless-child/ -> 0: []
+    http://domain.com/childless-great-grandchild/ -> 0: []
+    http://domain.com/grandchild-with-child/ -> 1: [http://domain.com/childless-great-grandchild/]
 
     or
 
     <root>
        |
-       +--childless-child
+       +--childless-child/
        |
-       +--child-with-child
+       +--child-with-child/
             |
-            +--grandchild-with-child
+            +--grandchild-with-child/
                  |
-                 +--childless-great-grandchild
+                 +--childless-great-grandchild/
  */
 internal class CrawlerTest {
 
@@ -31,10 +31,10 @@ internal class CrawlerTest {
         val siteMap = crawler.siteMap
         assertEquals(5, siteMap.size)
         assertEquals(2, siteMap["http://domain.com/"]?.size)
-        assertEquals(0, siteMap["http://domain.com/childless-child"]?.size)
-        assertEquals(1, siteMap["http://domain.com/child-with-child"]?.size)
-        assertEquals(1, siteMap["http://domain.com/grandchild-with-child"]?.size)
-        assertEquals(0, siteMap["http://domain.com/childless-great-grandchild"]?.size)
+        assertEquals(0, siteMap["http://domain.com/childless-child/"]?.size)
+        assertEquals(1, siteMap["http://domain.com/child-with-child/"]?.size)
+        assertEquals(1, siteMap["http://domain.com/grandchild-with-child/"]?.size)
+        assertEquals(0, siteMap["http://domain.com/childless-great-grandchild/"]?.size)
     }
 
     @Test
@@ -44,9 +44,9 @@ internal class CrawlerTest {
         val siteMap = crawler.siteMap
         assertEquals(4, siteMap.size)
         assertEquals(2, siteMap["http://domain.com/"]?.size)
-        assertEquals(0, siteMap["http://domain.com/childless-child"]?.size)
-        assertEquals(1, siteMap["http://domain.com/child-with-child"]?.size)
-        assertEquals(0, siteMap["http://domain.com/grandchild-with-child"]?.size)
+        assertEquals(0, siteMap["http://domain.com/childless-child/"]?.size)
+        assertEquals(1, siteMap["http://domain.com/child-with-child/"]?.size)
+        assertEquals(0, siteMap["http://domain.com/grandchild-with-child/"]?.size)
     }
 
     @Test
@@ -56,7 +56,7 @@ internal class CrawlerTest {
         val siteMap = crawler.siteMap
         assertEquals(3, siteMap.size)
         assertEquals(2, siteMap["http://domain.com/"]?.size)
-        assertEquals(0, siteMap["http://domain.com/childless-child"]?.size)
-        assertEquals(0, siteMap["http://domain.com/child-with-child"]?.size)
+        assertEquals(0, siteMap["http://domain.com/childless-child/"]?.size)
+        assertEquals(0, siteMap["http://domain.com/child-with-child/"]?.size)
     }
 }

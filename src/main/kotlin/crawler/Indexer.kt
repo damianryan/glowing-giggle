@@ -38,7 +38,7 @@ class Indexer(val crawler: Crawler, val linkLoader: LinkLoader, val url: String,
                         }
                     }
                 }
-                LOGGER.debug("parent: {}, depth: {}, # of children: {}, total visits (all URLs): {}", url, depth, links?.size, crawler.size)
+                LOGGER.debug("parent: {}, depth: {}, # of child: {}, total visits (all URLs): {}", url, depth, links?.size, crawler.size)
                 invokeAll(actions) // tells the fork join pool to invoke sub-tasks to crawl all child links
             } else {
                 LOGGER.debug("depth {} of {} exceeds maxDepth {}, not loading links", depth, url, maxDepth)
