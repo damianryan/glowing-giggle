@@ -4,7 +4,7 @@ import java.util.concurrent.ForkJoinPool
 
 fun main(args: Array<String>) {
     if (args.size < 1) {
-        System.err.println("Usage: java -jar crawler.jar <URL> [maxThreads] [maxDepth]")
+        System.err.println("Usage: java -jar glowing-giggle-1.0-SNAPSHOT.jar <URL> [maxThreads] [maxDepth]")
         System.exit(1)
     }
     val url = args[0]
